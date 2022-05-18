@@ -12,6 +12,7 @@
 #status {
     border-color: grey;
     box-shadow: 5px 5px 5px grey;
+    color: white;
 }
 
 ol {
@@ -34,4 +35,8 @@ canvas {
     background-color: white;
     border-radius: 10px;
     border-style: dotted;
+}
+
+body {
+    height: 865px;
 }

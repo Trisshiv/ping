@@ -20,6 +20,8 @@ var wrist_x = "";
 var wrist_y = "";
 var score_wrist = "";
 
+var game_status = "";
+
 //ball x and y and speedx speed y and radius
 var ball = {
   x: 350 / 2,
@@ -27,6 +29,11 @@ var ball = {
   r: 20,
   dx: 3,
   dy: 3
+}
+
+function preload() {
+  ball_touch = loadSound("ball_touch_paddel.wav");
+  missed_ball = loadSound("missed.wav");
 }
 
 function setup() {
@@ -53,11 +60,20 @@ function modelLoaded() {
   console.log("Model is loaded");
 }
 
+function game_start() {
+  game_status = "start";
+  document.getElementById("status").innerHTML = "Game is loaded";
+}
+
 function draw() {
 
   background(0);
 
   image(video, 0, 0, 700, 600)
+
+  if (game_status == "start") {
+
+  }
 
   fill("black");
   stroke("black");
@@ -80,7 +96,7 @@ function draw() {
   fill(250, 0, 0);
   stroke(0, 0, 250);
   strokeWeight(0.5);
-  paddle1Y = mouseY;
+  paddle1Y = wrist_y;
   rect(paddle1X, paddle1Y, paddle1, paddle1Height, 100);
 
 
@@ -153,10 +169,12 @@ function move() {
   if (ball.x - 2.5 * ball.r / 2 < 0) {
     if (ball.y >= paddle1Y && ball.y <= paddle1Y + paddle1Height) {
       ball.dx = -ball.dx + 0.5;
+      ball_touch.play();
     } else {
       pcscore++;
       reset();
       navigator.vibrate(100);
+      missed_ball.play();
     }
   }
   if (pcscore == 4) {
@@ -196,4 +214,10 @@ function paddleInCanvas() {
   if (mouseY < 0) {
     mouseY = 0;
   }
+}
+
+function game_reset() {
+  pcscore = 0;
+  playerscore = 0;
+  loop();
 }
